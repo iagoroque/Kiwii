@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +27,6 @@ public class Course {
 
     private String name;
 
-    @ElementCollection
-    private List<String> rm = new ArrayList<String>();
+    @Column(columnDefinition = "text[]")
+    private List<String> rm;
 }
