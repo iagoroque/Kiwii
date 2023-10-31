@@ -1,8 +1,10 @@
 package com.uu.kiwii.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,9 +23,10 @@ public class Course {
     private Long id;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Subject> subjects;
+    private List<Subject> subjects = new ArrayList<Subject>();
 
     private String name;
 
-    private String rm;
+    @ElementCollection
+    private List<String> rm = new ArrayList<String>();
 }

@@ -1,8 +1,8 @@
 package com.uu.kiwii.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,5 +29,5 @@ public class Subject {
     private String name;
 
     @ElementCollection
-    private List<String> links;
+    private List<String> links = new ArrayList<String>();
 }
