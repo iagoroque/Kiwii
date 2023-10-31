@@ -1,5 +1,6 @@
 package com.uu.kiwii.model;
 
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -23,7 +24,7 @@ public class Course {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
-    private String subject_id;
+    private List<Subject> subject;
 
     private String name;
 
