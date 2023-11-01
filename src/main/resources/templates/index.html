@@ -14,28 +14,37 @@
       <div
         class="absolute w-48 h-48 rounded-xl bg-green-300 -bottom-6 -right-10 transform rotate-12 hidden md:block"
       ></div>
-      <div class="py-12 px-12 bg-white rounded-2xl shadow-xl z-20">
+      <form
+        th:action="@{/findSubject}"
+        method="post"
+        class="py-12 px-12 bg-white rounded-2xl shadow-xl z-20"
+      >
         <div class="flex justify-center mb-8">
           <img class="w-16" src="../static/img/download.png" alt="logo" />
         </div>
         <div class="space-y-4">
           <input
+            id="rm"
+            name="rm"
             type="text"
             placeholder="Registro de Matrícula"
             class="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
           <input
+            id="code"
+            name="code"
             type="text"
             placeholder="Código da Disciplina"
             class="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
           />
         </div>
         <div class="text-center mt-6">
-          <button class="py-3 w-64 text-xl text-white bg-green-400 rounded-2xl">
+          <button type="submit" class="py-3 w-64 text-xl text-white bg-green-400 rounded-2xl">
             Buscar
           </button>
+          <p class="mt-6 text-red-500 font-semibold" id="message" th:text="${message}"></p>
         </div>
-      </div>
+      </form>
       <div
         class="w-40 h-40 absolute bg-green-300 rounded-full top-0 right-12 hidden md:block"
       ></div>
