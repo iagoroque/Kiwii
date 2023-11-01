@@ -6,8 +6,6 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -20,11 +18,10 @@ public class Subject {
     @Nonnull
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
-
     private String name;
+
+    @Column(columnDefinition = "text[]")
+    private List<String> rm;
 
     @Column(columnDefinition = "text[]")
     private List<String> links;

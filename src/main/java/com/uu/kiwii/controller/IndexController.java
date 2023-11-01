@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.uu.kiwii.service.CourseService;
+import com.uu.kiwii.service.SubjectService;
 
 @Controller
 public class IndexController {
 
     @Autowired
-    private CourseService courseService;
+    private SubjectService subjectService;
 
     @GetMapping("/")
     public String index() {
@@ -21,10 +21,13 @@ public class IndexController {
     }
 
     @PostMapping("/findSubject")
-    public void findSubject(@RequestParam("rm") String rm, @RequestParam("code") String code,
+    public String findSubject(@RequestParam("rm") String rm, @RequestParam("id") String id,
             RedirectAttributes attributes) {
-        if (!courseService.findRmOnCourse(rm)) {
-            attributes.addFlashAttribute("message", "Informações inválidas!");
+        if (!subjectService.verifyRm(rm) || !subjectService.verifySubject(id)) {
+            attributes.addFlashAttribute("message", "Informações inválidas");
+            return "redirect:/";
+        } else {
+            return "home";
         }
     }
 }
