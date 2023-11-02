@@ -2,16 +2,43 @@
 <html lang="pt-br">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kiwii</title>
   <link rel="shortcut icon" href="../static/img/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="../static/css/home.css">
 </head>
 
-<body class="min-h-screen bg-green-500 flex justify-center items-center">
-  <section class="bg-white min-h-screen">
+<body>
+  <section>
+    <header>
+      <img src="../static/img/logo.png" alt="logo">
+      <h2></h2>
+
+      <form action="" method="post">
+        <input type="text" placeholder="URL">
+        <button id="send" onclick="document.getElementById('modal').style.display='block'"></button>
+      </form>
+
+    </header>
+    <table>
+      <tr>
+        <th>Arquivo</th>
+        <th>Proprietário</th>
+        <th style="text-align: center;">Ações</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td style="text-align: center;">
+          <button><i class="fa-solid fa-circle-down fa-rotate-270" style="color: #422006;"></i></button>
+          <button><i class="fa-solid fa-trash" style="color: #422006;"></i></button>
+        </td>
+      </tr>
+    </table>
   </section>
+
+  <script src="https://kit.fontawesome.com/3d294240d4.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
