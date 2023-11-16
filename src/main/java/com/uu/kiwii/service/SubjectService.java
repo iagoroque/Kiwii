@@ -18,10 +18,6 @@ public class SubjectService {
         subjectRepository.save(subject);
     }
 
-    public boolean verifyRm(String rm) {
-        return subjectRepository.verifyRm(rm);
-    }
-
     public boolean verifySubject(String id) {
         return subjectRepository.verifySubject(id);
     }

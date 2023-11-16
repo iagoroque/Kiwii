@@ -23,7 +23,7 @@ public class IndexController {
     @PostMapping("/findSubject")
     public String findSubject(@RequestParam("rm") String rm, @RequestParam("id") String id,
             RedirectAttributes attributes) {
-        if (!subjectService.verifySubject(id.toUpperCase())) {
+        if (!subjectService.verifySubject(id.toUpperCase()) || rm.isBlank()) {
             attributes.addFlashAttribute("message", "Informações inválidas");
             return "redirect:/";
         } else {
