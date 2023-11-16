@@ -5,7 +5,6 @@
 
 body {
     background-color: var(--green);
-    height: 100vh;
     display: flex;
     justify-content: center;
     margin: 0;
@@ -31,6 +30,7 @@ header {
 
 header>* {
     padding: .25rem;
+    margin: 1rem 0px;
 }
 
 img {
@@ -40,6 +40,7 @@ img {
 h2 {
     color: var(--brown);
     margin: 0;
+    text-align: center;
 }
 
 #send {
@@ -67,7 +68,7 @@ h2 {
     content: '\01F95D';
 }
 
-form{
+form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,27 +81,77 @@ input {
     margin: 5px;
     border: solid 1px rgba(0, 0, 0, 0.15);
     border-radius: 25px;
-    width: 75%;
+    width: 50%;
 }
 
-.cards{
+form input:first-child {
+    width: 10%;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.cards {
     max-width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    padding: 2rem 0px;
+    position: relative;
 }
 
-.card{
+.card {
+    position: relative;
     margin: 1rem .5rem;
-    width: 320px;
-    height: 250px;
-    background-color: var(--green);
+    width: 300px;
+    height: 230px;
+    background-color: #edecec;
     border-radius: 15px;
+    transition: all 0.3s ease;
 }
 
-.card img{
+#delete {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    background: none;
+    border: none;
+}
+
+#delete:hover i {
+    color: #ff5151 !important;
+    cursor: pointer;
+}
+
+#delete i {
+    font-size: 2rem;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    background-color: var(--green);
+}
+
+.card_content {
+    padding: .5rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.card_content * {
+    margin: 0;
+    text-justify: center;
+}
+
+.card img {
     width: 100%;
     height: 50%;
     object-fit: cover;
     border-radius: 15px 15px 0px 0px;
+}
+
+.card p {
+    padding-top: 10px;
 }

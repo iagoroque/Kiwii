@@ -44,16 +44,17 @@ public class HomeController {
             try {
                 Document document = Jsoup.connect(link.getUrl()).get();
 
+                String imgUrl = document.select("meta[property=og:image]").attr("content");        
                 String title = document.title();
-                String imgUrl = document.select("meta[property=og:image]").attr("content");
 
                 Scrap scrap = new Scrap(title, link.getUrl(), imgUrl, link.getRm().getName(), link.getRm().getId());
                 scraps.add(scrap);
-
+        
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        
         return scraps;
     }
 }
