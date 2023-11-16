@@ -9,15 +9,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Rm {
 
     @Id
     @Nonnull
-    private Long id;
+    private String id;
 
     private String name;
 
@@ -26,7 +30,7 @@ public class Rm {
     private Subject subject;
 
     @OneToMany(mappedBy = "rm", cascade = CascadeType.ALL)
-    private List<Links> links;
+    private List<Link> links;
 }
 
 

@@ -13,22 +13,26 @@
   <section>
     <header>
       <img src="../static/img/logo.png" alt="logo">
-      <h2 th:text="${subject.name}"></h2>
+      <h2 th:text="${subjectName}"></h2>
 
       <form action="" method="post">
         <input type="text" placeholder="URL">
         <button id="send" onclick="document.getElementById('modal').style.display='block'"></button>
       </form>
-
     </header>
+
     <div class="cards">
-      <a>
-        <div class="card">
-          <img>
-          <h3></h3>
-        </div>
-      </a>
+      <div th:each="scrap : ${scraps}">
+        <a th:href="${scrap.url}">
+          <div class="card">
+            <img th:src="${scrap.imgUrl}">
+            <h3 th:text="${scrap.title}"></h3>
+            <p th:text="${scrap.name} + ' - ' + ${scrap.rm}"></p>
+          </div>
+        </a>
+      </div>
     </div>
+
 
   </section>
 
