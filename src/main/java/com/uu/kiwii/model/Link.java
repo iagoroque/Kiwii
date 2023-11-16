@@ -29,4 +29,5 @@ public class Link {
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;
+
 }

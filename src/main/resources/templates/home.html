@@ -16,12 +16,12 @@
       <img src="../static/img/logo.png" alt="logo">
       <h2 th:text="${subjectName}"></h2>
 
-      <form action="" method="post">
-        <input type="text" placeholder="RM" required="required">
-        <input type="text" placeholder="URL" required="required">
-        <button id="send" onclick="document.getElementById('modal').style.display='block'"></button>
+      <form th:action="@{/save}" method="post">
+        <input name="rm" type="text" placeholder="RM" required="required">
+        <input name="url" type="text" placeholder="URL" required="required">
+        <button type="submit" id="send" onclick="document.getElementById('modal').style.display='block'"></button>
       </form>
-
+      <p id="message" th:text="${message}"></p>
     </header>
 
     <div class="cards">
@@ -32,17 +32,19 @@
             <img th:src="${scrap.imgUrl}">
             <div class="card_content">
               <h3 th:text="${scrap.title}"></h3>
-              <i><p th:text="${scrap.name} + ' - ' + ${scrap.rm}"></p></i>
+              <i>
+                <p th:text="${scrap.name} + ' - ' + ${scrap.rm}"></p>
+              </i>
             </div>
           </div>
         </a>
       </div>
     </div>
 
-
   </section>
 
   <script src="https://kit.fontawesome.com/3d294240d4.js" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

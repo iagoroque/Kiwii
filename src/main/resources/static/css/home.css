@@ -33,6 +33,11 @@ header>* {
     margin: 1rem 0px;
 }
 
+#message {
+    color: red;
+    margin: 0;
+}
+
 img {
     width: 50%;
 }
