@@ -13,7 +13,7 @@
   <section>
     <header>
       <img src="../static/img/logo.png" alt="logo">
-      <h2></h2>
+      <h2 th:text="${subject.name}"></h2>
 
       <form action="" method="post">
         <input type="text" placeholder="URL">
@@ -21,21 +21,15 @@
       </form>
 
     </header>
-    <table>
-      <tr>
-        <th>Arquivo</th>
-        <th>Proprietário</th>
-        <th style="text-align: center;">Ações</th>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td style="text-align: center;">
-          <button><i class="fa-solid fa-circle-down fa-rotate-270" style="color: #422006;"></i></button>
-          <button><i class="fa-solid fa-trash" style="color: #422006;"></i></button>
-        </td>
-      </tr>
-    </table>
+    <div class="cards">
+      <a href="#">
+        <div class="card">
+          <img src="../static/img/background.jpg">
+          <h3 th:text="${subject.title}"></h3>
+          <p>200019492</p>
+        </div>
+      </a>
+    </div>
   </section>
 
   <script src="https://kit.fontawesome.com/3d294240d4.js" crossorigin="anonymous"></script>
