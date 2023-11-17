@@ -63,7 +63,8 @@ public class HomeController {
                 String imgUrl = document.select("meta[property=og:image]").attr("content");
                 String title = document.title();
 
-                Scrap scrap = new Scrap(link.getId(), title, link.getUrl(), imgUrl, link.getRm().getName(), link.getRm().getId());
+                Scrap scrap = new Scrap(link.getId(), title, link.getUrl(), imgUrl, link.getRm().getName(),
+                        link.getRm().getId());
                 scraps.add(scrap);
 
             } catch (Exception e) {
@@ -75,7 +76,7 @@ public class HomeController {
     }
 
     @PostMapping("/save")
-    public String save(String rm, @RequestParam String url, RedirectAttributes attributes, Model model) {
+    public String save(String rm, @RequestParam String url, RedirectAttributes attributes) {
         if (!rmService.verifyRm(currentRm)) {
             attributes.addFlashAttribute("message", "Você não tem permissões :(");
         } else {
@@ -86,8 +87,13 @@ public class HomeController {
     }
 
     @GetMapping("delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
+        if (currentRm == null || currentRm.isBlank() || currentRm.isEmpty()) {
+            attributes.addFlashAttribute("message", "Insira seu RM, primeiro.");
+            return "redirect:/";
+        }
         linkService.deleteById(id);
         return "redirect:/home/" + currentId;
     }
+
 }
