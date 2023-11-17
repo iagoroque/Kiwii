@@ -20,6 +20,8 @@
         <p>repositório estudantil</p>
       </header>
 
+      <input name="rm" type="text" placeholder="RM" required="required">
+      
       <select id="select" name="id" required="required">
         <option disabled selected hidden>Selecione a Disciplina</option>
         <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>

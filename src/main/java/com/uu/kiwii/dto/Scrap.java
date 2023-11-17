@@ -1,6 +1,6 @@
 package com.uu.kiwii.dto;
 
-public record Scrap(String title, String url, String imgUrl, String name, String rm) {
+public record Scrap(Long id, String title, String url, String imgUrl, String name, String rm) {
 
     public Scrap {
         if (title.length() > 45) {

@@ -1,5 +1,6 @@
 package com.uu.kiwii.service;
 
+import org.apache.commons.validator.routines.UrlValidator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +14,28 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class LinkService {
-    
+
     @Autowired
     LinkRepository linkRepository;
 
     @Autowired
     SubjectRepository subjectRepository;
 
-    public List<Link> findAll(){
+    public List<Link> findAll() {
         return linkRepository.findAll();
     }
 
     @Transactional
-    public void save(String url, String rm, String subject){
+    public void save(String url, String rm, String subject) {
         linkRepository.save(url, rm, subject);
+    }
+
+    public boolean verifyUrl(String urlString) {
+        UrlValidator urlValidator = new UrlValidator();
+        return urlValidator.isValid(urlString);
+    }
+
+    public void deleteById(Long id){
+        linkRepository.deleteById(id);
     }
 }

@@ -19,4 +19,6 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
     @Query(value = "INSERT INTO link (url, rm_id, subject_id) VALUES (?1, ?2, ?3)", nativeQuery = true)
     void save(String url, String rm, String subject);
 
+    @Override
+    void deleteById(Long id);
 }

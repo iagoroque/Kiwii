@@ -6,7 +6,6 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,10 +34,15 @@ public class HomeController {
 
     private String currentId;
 
+    private String currentRm;
+
     @GetMapping("/home/{id}")
     public String home(@PathVariable String id, Model model) {
         List<Scrap> scraps = scrap();
         String subjectName = subjectService.findById(id).getName();
+
+        currentRm = (String) model.asMap().get("rm");
+
         currentId = id;
 
         model.addAttribute("scraps", scraps);
@@ -59,7 +63,7 @@ public class HomeController {
                 String imgUrl = document.select("meta[property=og:image]").attr("content");
                 String title = document.title();
 
-                Scrap scrap = new Scrap(title, link.getUrl(), imgUrl, link.getRm().getName(), link.getRm().getId());
+                Scrap scrap = new Scrap(link.getId(), title, link.getUrl(), imgUrl, link.getRm().getName(), link.getRm().getId());
                 scraps.add(scrap);
 
             } catch (Exception e) {
@@ -71,14 +75,19 @@ public class HomeController {
     }
 
     @PostMapping("/save")
-    public String save(@RequestParam String rm, @RequestParam String url, RedirectAttributes attributes) {
-        if (!rmService.verifyRm(rm)) {
+    public String save(String rm, @RequestParam String url, RedirectAttributes attributes, Model model) {
+        if (!rmService.verifyRm(currentRm)) {
             attributes.addFlashAttribute("message", "Você não tem permissões :(");
         } else {
-            linkService.save(url, rm, currentId);
+            linkService.save(url, currentRm, currentId);
             attributes.addFlashAttribute("message", "Enviado! :)");
         }
         return "redirect:/home/" + currentId;
     }
 
+    @GetMapping("delete/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        linkService.deleteById(id);
+        return "redirect:/home/" + currentId;
+    }
 }
