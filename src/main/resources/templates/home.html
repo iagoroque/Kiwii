@@ -27,8 +27,8 @@
       <div th:each="scrap : ${scraps}">
         <a th:href="${scrap.url}">
           <div class="card">
-            <form method="get" th:action="@{'/delete/' + ${scrap.id}}">
-              <button type="submit" id="delete">
+            <form method="get" th:action="@{'/delete/' + ${scrap.id}}" th:if="${scrap.isOwner}">
+              <button type="submit" id="delete" >
                 <i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i>
             </button>
             </form>

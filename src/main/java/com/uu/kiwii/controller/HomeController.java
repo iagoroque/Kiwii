@@ -38,12 +38,11 @@ public class HomeController {
 
     @GetMapping("/home/{id}")
     public String home(@PathVariable String id, Model model) {
+        currentRm = (String) model.asMap().get("rm");
+        currentId = id;
+
         List<Scrap> scraps = scrap();
         String subjectName = subjectService.findById(id).getName();
-
-        currentRm = (String) model.asMap().get("rm");
-
-        currentId = id;
 
         model.addAttribute("scraps", scraps);
         model.addAttribute("subjectName", subjectName);
@@ -52,7 +51,6 @@ public class HomeController {
     }
 
     public List<Scrap> scrap() {
-
         List<Link> links = linkService.findAll();
         List<Scrap> scraps = new ArrayList<>();
 
@@ -64,7 +62,8 @@ public class HomeController {
                 String title = document.title();
 
                 Scrap scrap = new Scrap(link.getId(), title, link.getUrl(), imgUrl, link.getRm().getName(),
-                        link.getRm().getId());
+                        link.getRm().getId(), linkService.isOwner(currentRm, link.getRm().getId()));
+
                 scraps.add(scrap);
 
             } catch (Exception e) {

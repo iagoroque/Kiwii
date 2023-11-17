@@ -38,4 +38,14 @@ public class LinkService {
     public void deleteById(Long id){
         linkRepository.deleteById(id);
     }
+
+    public boolean isOwner(String currentRm, String linkRm) {
+
+        if (currentRm != null && currentRm.startsWith("1000")) {
+            return true;
+        }
+
+        return currentRm != null && linkRm != null && currentRm.equals(linkRm);
+    }
+    
 }

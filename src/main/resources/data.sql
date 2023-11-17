@@ -4,6 +4,7 @@
 
 -- RMS
     INSERT INTO rm (id, name, subject_id) VALUES
+    ('100019492', 'André Carlos Magalhães', 'POO'),
     ('200019492', 'Oseias Lopes da Silva', 'POO'),
     ('200019493', 'Iago Ribeiro Novaes', 'POO'),
     ('200019494', 'Harrison Borges dos Santos', 'POO');
