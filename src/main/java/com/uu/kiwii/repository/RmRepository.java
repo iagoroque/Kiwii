@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.uu.kiwii.model.Rm;
 
 @Repository
-public interface RmRepository extends JpaRepository<Rm, Long> {
+public interface RmRepository extends JpaRepository<Rm, String> {
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM rm WHERE id = ?1)", nativeQuery = true)
     boolean verifyRm(String id);

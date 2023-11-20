@@ -25,7 +25,7 @@
 
     <div class="cards">
       <div th:each="scrap : ${scraps}">
-        <a th:href="${scrap.url}">
+        <a th:href="${scrap.url}" target="_blank">
           <div class="card">
             <form method="get" th:action="@{'/delete/' + ${scrap.id}}" th:if="${scrap.isOwner}">
               <button type="submit" id="delete" >

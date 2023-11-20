@@ -78,7 +78,11 @@ public class HomeController {
     public String save(String rm, @RequestParam String url, RedirectAttributes attributes) {
         if (!rmService.verifyRm(currentRm)) {
             attributes.addFlashAttribute("message", "Você não tem permissões :(");
-        } else {
+        } 
+        else if(linkService.verifyUrl(url) == false){
+            attributes.addFlashAttribute("message", "Link inválido!");
+        }
+        else {
             linkService.save(url, currentRm, currentId);
             attributes.addFlashAttribute("message", "Enviado! :)");
         }
