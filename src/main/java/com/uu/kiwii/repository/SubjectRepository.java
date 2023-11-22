@@ -16,7 +16,7 @@ public interface SubjectRepository extends JpaRepository<Subject, String>{
     @Override
     Optional<Subject> findById(String id);
 
-    @Override
+    @Query(value = "SELECT * FROM subject ORDER BY name ASC", nativeQuery = true)
     List<Subject> findAll();
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM subject WHERE id = ?1)", nativeQuery = true)
