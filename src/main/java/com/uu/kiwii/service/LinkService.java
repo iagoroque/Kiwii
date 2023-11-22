@@ -25,6 +25,10 @@ public class LinkService {
         return linkRepository.findAll();
     }
 
+    public List<Link> findAllById(String subject_id){
+        return linkRepository.findAllById(subject_id);
+    }
+
     @Transactional
     public void save(String url, String rm, String subject) {
         linkRepository.save(url, rm, subject);

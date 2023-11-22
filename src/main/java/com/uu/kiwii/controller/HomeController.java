@@ -51,7 +51,7 @@ public class HomeController {
     }
 
     public List<Scrap> scrap() {
-        List<Link> links = linkService.findAll();
+        List<Link> links = linkService.findAllById(currentId);
         List<Scrap> scraps = new ArrayList<>();
 
         for (Link link : links) {

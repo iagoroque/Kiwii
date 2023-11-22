@@ -21,4 +21,7 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
 
     @Override
     void deleteById(Long id);
+
+    @Query(value = "SELECT * FROM link WHERE subject_id = ?1", nativeQuery = true)
+    List<Link> findAllById(String subject_id);
 }
