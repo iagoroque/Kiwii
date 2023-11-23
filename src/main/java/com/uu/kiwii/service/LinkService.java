@@ -1,12 +1,13 @@
 package com.uu.kiwii.service;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,17 +39,20 @@ public class LinkService {
         linkRepository.save(url, rm, subject);
     }
 
-    public boolean verifyUrl(String urlString) {
-        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
-            HttpGet request = new HttpGet(urlString);
-            try (CloseableHttpResponse response = httpClient.execute(request)) {
-                int statusCode = response.getStatusLine().getStatusCode();
-                return statusCode >= 200 && statusCode < 300;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public boolean verifyUrl(String url) {
+        try {
+            new URL(url).toURI();
+        } catch (MalformedURLException | URISyntaxException e) {
             return false;
         }
+    
+        try {
+            Document document = Jsoup.connect(url).get();
+        } catch (IOException | IllegalArgumentException e) {
+            return false;
+        }
+        System.out.println(url);
+        return true;
     }
 
     public boolean findByUrl(String rm, String url) {
@@ -60,7 +64,8 @@ public class LinkService {
     }
 
     public boolean isOwner(String currentRm, String subjectId, String linkRm) {
-        if (currentRm.startsWith("1000") && subjectRepository.verifyRmInSubject(currentRm, subjectId) || currentRm.equals(linkRm)) {
+        if (currentRm.startsWith("1000") && subjectRepository.verifyRmInSubject(currentRm, subjectId)
+                || currentRm.equals(linkRm)) {
             return true;
         }
 
