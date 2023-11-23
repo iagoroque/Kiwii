@@ -20,6 +20,8 @@ import com.uu.kiwii.service.LinkService;
 import com.uu.kiwii.service.RmService;
 import com.uu.kiwii.service.SubjectService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
 
@@ -37,17 +39,14 @@ public class HomeController {
     private String currentRm;
 
     @GetMapping("/home/{id}")
-    public String home(@PathVariable String id, Model model) {
-        currentRm = (String) model.asMap().get("rm");
+    public String home(@PathVariable String id, Model model, HttpSession session) {
+        currentRm = (String) session.getAttribute("rm");
         currentId = id;
 
-<<<<<<< Updated upstream
-=======
         if (currentRm == null) {
             return "redirect:/";
         }
 
->>>>>>> Stashed changes
         List<Scrap> scraps = scrap();
 
         model.addAttribute("scraps", scraps);
@@ -69,7 +68,7 @@ public class HomeController {
                 String title = document.title();
 
                 Scrap scrap = new Scrap(link.getId(), title, link.getUrl(), imgUrl, link.getRm().getName(),
-                        link.getRm().getId(), linkService.isOwner(currentRm, link.getRm().getId()));
+                        link.getRm().getId(), linkService.isOwner(currentRm, currentId, link.getRm().getId()));
 
                 scraps.add(scrap);
 
@@ -82,22 +81,15 @@ public class HomeController {
     }
 
     @PostMapping("/save")
-    public String save(String rm, @RequestParam String url, RedirectAttributes attributes) {
-<<<<<<< Updated upstream
-        if (!rmService.verifyRm(currentRm)) {
-            attributes.addFlashAttribute("message", "Você não tem permissões :(");
-        } 
-        else if(linkService.verifyUrl(url) == false){
-            attributes.addFlashAttribute("message", "Link inválido!");
-        }
-        else {
-=======
+    public String save(@RequestParam String url, RedirectAttributes attributes) {
         if (!linkService.verifyUrl(url)) {
             attributes.addFlashAttribute("message", "Link inválido ou inacessível.");
         } else if(linkService.findByUrl(currentId, url)){
             attributes.addFlashAttribute("message", "Este conteúdo já existe.");
-        } else {
->>>>>>> Stashed changes
+        }else if(!subjectService.verifyRmInSubject(currentRm, currentId)){
+            attributes.addFlashAttribute("message", "Você não faz parte desta turma.");
+        }
+        else {
             linkService.save(url, currentRm, currentId);
             attributes.addFlashAttribute("message", "Enviado! :)");
         }
@@ -110,4 +102,9 @@ public class HomeController {
         return "redirect:/home/" + currentId;
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("rm");
+        return "redirect:/";
+    }
 }

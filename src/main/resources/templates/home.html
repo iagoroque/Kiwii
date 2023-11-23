@@ -27,11 +27,11 @@
   </header>
 
   <section>
-    <p id="message" th:text="${message}" style="color: red; margin: 0;"></p>
     <form th:action="@{/save}" method="post">
       <input name="url" type="text" placeholder="Adicionar conteúdo" required="required">
       <button type="submit" id="send"></button>
     </form>
+    <p id="message" th:text="${message}" style="color: red; margin: 0;"></p>
 
     <div class="cards">
       <div th:each="scrap : ${scraps}">
@@ -53,10 +53,6 @@
         </a>
       </div>
     </div>
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
   </section>
 
   <script src="https://kit.fontawesome.com/3d294240d4.js" crossorigin="anonymous"></script>

@@ -1,13 +1,10 @@
 package com.uu.kiwii.service;
 
-import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +59,8 @@ public class LinkService {
         linkRepository.deleteById(id);
     }
 
-    public boolean isOwner(String currentRm, String linkRm) {
-        if (currentRm.startsWith("1000") || currentRm.equals(linkRm)) {
+    public boolean isOwner(String currentRm, String subjectId, String linkRm) {
+        if (currentRm.startsWith("1000") && subjectRepository.verifyRmInSubject(currentRm, subjectId) || currentRm.equals(linkRm)) {
             return true;
         }
 

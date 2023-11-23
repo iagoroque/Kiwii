@@ -19,10 +19,6 @@ public class SubjectService {
         subjectRepository.save(subject);
     }
 
-    public boolean verifySubject(String id) {
-        return subjectRepository.verifySubject(id);
-    }
-
     public Subject findById(String id) {
         Optional<Subject> optionalSubject = subjectRepository.findById(id);
         if (optionalSubject.isPresent()) {
@@ -33,5 +29,9 @@ public class SubjectService {
 
     public List<Subject> findAll(){
         return subjectRepository.findAll();
+    }
+
+    public boolean verifyRmInSubject(String currentRm, String subjectId) {
+        return subjectRepository.verifyRmInSubject(currentRm, subjectId);
     }
 }

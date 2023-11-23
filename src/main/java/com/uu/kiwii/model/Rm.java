@@ -7,7 +7,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,12 +26,14 @@ public class Rm {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "subject_id")
-    private Subject subject;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "rm_subject", 
+        joinColumns = @JoinColumn(name = "rm_id"), 
+        inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
+    private List<Subject> subjects;
 
     @OneToMany(mappedBy = "rm", cascade = CascadeType.ALL)
     private List<Link> links;
 }
-
-

@@ -19,7 +19,7 @@ public interface SubjectRepository extends JpaRepository<Subject, String>{
     @Query(value = "SELECT * FROM subject ORDER BY name ASC", nativeQuery = true)
     List<Subject> findAll();
 
-    @Query(value = "SELECT EXISTS(SELECT 1 FROM subject WHERE id = ?1)", nativeQuery = true)
-    boolean verifySubject(String code);
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM rm_subject WHERE rm_id = ?1 AND subject_id = ?2)", nativeQuery = true)
+    boolean verifyRmInSubject(String currentRm, String subjectId);
 
 }
