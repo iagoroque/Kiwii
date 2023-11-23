@@ -15,6 +15,8 @@ import com.uu.kiwii.model.Subject;
 import com.uu.kiwii.service.RmService;
 import com.uu.kiwii.service.SubjectService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @SessionAttributes("rm")
 public class IndexController {
@@ -35,9 +37,9 @@ public class IndexController {
     }
 
     @PostMapping("/findSubject")
-    public String findSubject(@RequestParam(name = "id", required = false) String id, @RequestParam(name = "rm") String rm, RedirectAttributes attributes) {
-        
+    public String findSubject(@RequestParam(name = "id", required = false) String id, @RequestParam(name = "rm") String rm, RedirectAttributes attributes, HttpSession session) {
         if (subjectService.verifySubject(id) && rmService.verifyRm(rm)) {
+            session.setAttribute("rm", rm);
             attributes.addFlashAttribute("rm", rm);
             return "redirect:/home/" + id.toUpperCase();
         }

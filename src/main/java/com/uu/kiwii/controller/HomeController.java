@@ -20,6 +20,8 @@ import com.uu.kiwii.service.LinkService;
 import com.uu.kiwii.service.RmService;
 import com.uu.kiwii.service.SubjectService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
 
@@ -37,9 +39,11 @@ public class HomeController {
     private String currentRm;
 
     @GetMapping("/home/{id}")
-    public String home(@PathVariable String id, Model model) {
-        currentRm = (String) model.asMap().get("rm");
+    public String home(@PathVariable String id, Model model, HttpSession session) {
+        currentRm = (String) session.getAttribute("rm");
         currentId = id;
+
+        System.out.println(currentRm);
 
         List<Scrap> scraps = scrap();
         String subjectName = subjectService.findById(id).getName();
@@ -77,12 +81,11 @@ public class HomeController {
     @PostMapping("/save")
     public String save(String rm, @RequestParam String url, RedirectAttributes attributes) {
         if (!rmService.verifyRm(currentRm)) {
-            attributes.addFlashAttribute("message", "Você não tem permissões :(");
-        } 
-        else if(linkService.verifyUrl(url) == false){
+            attributes.addFlashAttribute("message", "Insira seu RM, primeiro.");
+            return "redirect:/";
+        } else if (linkService.verifyUrl(url) == false) {
             attributes.addFlashAttribute("message", "Link inválido!");
-        }
-        else {
+        } else {
             linkService.save(url, currentRm, currentId);
             attributes.addFlashAttribute("message", "Enviado! :)");
         }
@@ -97,6 +100,12 @@ public class HomeController {
         }
         linkService.deleteById(id);
         return "redirect:/home/" + currentId;
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("rm");
+        return "redirect:/";
     }
 
 }
