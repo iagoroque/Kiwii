@@ -41,11 +41,18 @@ public class HomeController {
         currentRm = (String) model.asMap().get("rm");
         currentId = id;
 
+<<<<<<< Updated upstream
+=======
+        if (currentRm == null) {
+            return "redirect:/";
+        }
+
+>>>>>>> Stashed changes
         List<Scrap> scraps = scrap();
-        String subjectName = subjectService.findById(id).getName();
 
         model.addAttribute("scraps", scraps);
-        model.addAttribute("subjectName", subjectName);
+        model.addAttribute("subjectName", subjectService.findById(id).getName());
+        model.addAttribute("currentUser", rmService.findById(currentRm).getName());
 
         return "home";
     }
@@ -76,6 +83,7 @@ public class HomeController {
 
     @PostMapping("/save")
     public String save(String rm, @RequestParam String url, RedirectAttributes attributes) {
+<<<<<<< Updated upstream
         if (!rmService.verifyRm(currentRm)) {
             attributes.addFlashAttribute("message", "Você não tem permissões :(");
         } 
@@ -83,6 +91,13 @@ public class HomeController {
             attributes.addFlashAttribute("message", "Link inválido!");
         }
         else {
+=======
+        if (!linkService.verifyUrl(url)) {
+            attributes.addFlashAttribute("message", "Link inválido ou inacessível.");
+        } else if(linkService.findByUrl(currentId, url)){
+            attributes.addFlashAttribute("message", "Este conteúdo já existe.");
+        } else {
+>>>>>>> Stashed changes
             linkService.save(url, currentRm, currentId);
             attributes.addFlashAttribute("message", "Enviado! :)");
         }
@@ -91,10 +106,6 @@ public class HomeController {
 
     @GetMapping("delete/{id}")
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
-        if (currentRm == null || currentRm.isBlank() || currentRm.isEmpty()) {
-            attributes.addFlashAttribute("message", "Insira seu RM, primeiro.");
-            return "redirect:/";
-        }
         linkService.deleteById(id);
         return "redirect:/home/" + currentId;
     }

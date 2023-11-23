@@ -24,4 +24,7 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
 
     @Query(value = "SELECT * FROM link WHERE subject_id = ?1", nativeQuery = true)
     List<Link> findAllById(String subject_id);
+
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM link WHERE subject_id = ?1 AND url = ?2)", nativeQuery = true)
+    boolean findByUrl(String rm, String url);
 }

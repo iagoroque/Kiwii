@@ -31,7 +31,7 @@ public class IndexController {
 
         model.addAttribute("subjects", subjects);
 
-        return "index";
+        return "login";
     }
 
     @PostMapping("/findSubject")

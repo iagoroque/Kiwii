@@ -11,39 +11,52 @@
 </head>
 
 <body>
-  <section>
-    <header>
-      <img src="../static/img/logo.png" alt="logo">
-      <h2 th:text="${subjectName}"></h2>
+  <header>
+    <div class="content">
+      <div id="logo"><img src="../static/img/logo.png" alt="logo"></div>
+      <div class="session">
+        <h1 th:text="${subjectName}"></h1>
+        <p th:text="${'Bem-vindo(a), ' + currentUser + '!'}"></p>
+        <form method="get" th:action="@{/logout}">
+          <button type="submit" id="logout">
+            <i class="fa-solid fa-right-from-bracket fa-flip-horizontal"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
 
-      <form th:action="@{/save}" method="post">
-        <input name="url" type="text" placeholder="URL" required="required">
-        <button type="submit" id="send" onclick="document.getElementById('modal').style.display='block'"></button>
-      </form>
-      <p id="message" th:text="${message}"></p>
-    </header>
+  <section>
+    <p id="message" th:text="${message}" style="color: red; margin: 0;"></p>
+    <form th:action="@{/save}" method="post">
+      <input name="url" type="text" placeholder="Adicionar conteúdo" required="required">
+      <button type="submit" id="send"></button>
+    </form>
 
     <div class="cards">
       <div th:each="scrap : ${scraps}">
         <a th:href="${scrap.url}" target="_blank">
           <div class="card">
-            <form method="get" th:action="@{'/delete/' + ${scrap.id}}" th:if="${scrap.isOwner}">
-              <button type="submit" id="delete" >
-                <i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i>
-            </button>
-            </form>
             <img th:src="${scrap.imgUrl}">
             <div class="card_content">
               <h3 th:text="${scrap.title}"></h3>
               <i>
                 <p th:text="${scrap.name}"></p>
               </i>
+              <form method="get" th:action="@{'/delete/' + ${scrap.id}}" th:if="${scrap.isOwner}">
+                <button type="submit" id="delete">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                </button>
+              </form>
             </div>
           </div>
         </a>
       </div>
     </div>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
   </section>
 
   <script src="https://kit.fontawesome.com/3d294240d4.js" crossorigin="anonymous"></script>

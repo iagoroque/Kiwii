@@ -1,6 +1,13 @@
 package com.uu.kiwii.service;
 
 import org.apache.commons.validator.routines.UrlValidator;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +32,7 @@ public class LinkService {
         return linkRepository.findAll();
     }
 
-    public List<Link> findAllById(String subject_id){
+    public List<Link> findAllById(String subject_id) {
         return linkRepository.findAllById(subject_id);
     }
 
@@ -35,21 +42,32 @@ public class LinkService {
     }
 
     public boolean verifyUrl(String urlString) {
-        UrlValidator urlValidator = new UrlValidator();
-        return urlValidator.isValid(urlString);
+        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
+            HttpGet request = new HttpGet(urlString);
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
+                int statusCode = response.getStatusLine().getStatusCode();
+                return statusCode >= 200 && statusCode < 300;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void deleteById(Long id){
+    public boolean findByUrl(String rm, String url) {
+        return linkRepository.findByUrl(rm, url);
+    }
+
+    public void deleteById(Long id) {
         linkRepository.deleteById(id);
     }
 
     public boolean isOwner(String currentRm, String linkRm) {
-
-        if (currentRm != null && currentRm.startsWith("1000")) {
+        if (currentRm.startsWith("1000") || currentRm.equals(linkRm)) {
             return true;
         }
 
-        return currentRm != null && linkRm != null && currentRm.equals(linkRm);
+        return false;
     }
-    
+
 }

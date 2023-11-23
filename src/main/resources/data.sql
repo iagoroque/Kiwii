@@ -3,7 +3,6 @@
     ('GDC', 'Gestão do Conhecimento'),
     ('POO', 'Programação Orientada a Objetos'),
     ('LPA', 'Lógica de Programação e Algoritmos'),
-    ('POOA', 'Programação Orientada a Objetos Avançada'),
     ('BD', 'Banco de Dados');
 
 -- RMS
