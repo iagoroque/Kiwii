@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @SessionAttributes("rm")
-public class IndexController {
+public class LoginController {
 
     @Autowired
     private SubjectService subjectService;
@@ -33,14 +33,14 @@ public class IndexController {
 
         model.addAttribute("subjects", subjects);
 
-        return "index";
+        return "login";
     }
 
     @PostMapping("/findSubject")
     public String findSubject(@RequestParam(name = "id", required = false) String id, @RequestParam(name = "rm") String rm, RedirectAttributes attributes, HttpSession session) {
-        if (subjectService.verifySubject(id) && rmService.verifyRm(rm)) {
+        
+        if (rmService.verifyRm(rm)) {
             session.setAttribute("rm", rm);
-            attributes.addFlashAttribute("rm", rm);
             return "redirect:/home/" + id.toUpperCase();
         }
         attributes.addFlashAttribute("message", "Informações inválidas");

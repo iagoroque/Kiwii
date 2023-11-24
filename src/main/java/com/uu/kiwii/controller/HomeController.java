@@ -43,13 +43,15 @@ public class HomeController {
         currentRm = (String) session.getAttribute("rm");
         currentId = id;
 
-        System.out.println(currentRm);
+        if (currentRm == null) {
+            return "redirect:/";
+        }
 
         List<Scrap> scraps = scrap();
-        String subjectName = subjectService.findById(id).getName();
 
         model.addAttribute("scraps", scraps);
-        model.addAttribute("subjectName", subjectName);
+        model.addAttribute("subjectName", subjectService.findById(id).getName());
+        model.addAttribute("currentUser", rmService.findById(currentRm).getName());
 
         return "home";
     }
@@ -66,7 +68,7 @@ public class HomeController {
                 String title = document.title();
 
                 Scrap scrap = new Scrap(link.getId(), title, link.getUrl(), imgUrl, link.getRm().getName(),
-                        link.getRm().getId(), linkService.isOwner(currentRm, link.getRm().getId()));
+                        link.getRm().getId(), linkService.isOwner(currentRm, currentId, link.getRm().getId()));
 
                 scraps.add(scrap);
 
@@ -79,13 +81,15 @@ public class HomeController {
     }
 
     @PostMapping("/save")
-    public String save(String rm, @RequestParam String url, RedirectAttributes attributes) {
-        if (!rmService.verifyRm(currentRm)) {
-            attributes.addFlashAttribute("message", "Insira seu RM, primeiro.");
-            return "redirect:/";
-        } else if (linkService.verifyUrl(url) == false) {
-            attributes.addFlashAttribute("message", "Link inválido!");
-        } else {
+    public String save(@RequestParam String url, RedirectAttributes attributes) {
+        if (!linkService.verifyUrl(url)) {
+            attributes.addFlashAttribute("message", "Link inválido ou inacessível.");
+        } else if(linkService.findByUrl(currentId, url)){
+            attributes.addFlashAttribute("message", "Este conteúdo já existe.");
+        }else if(!subjectService.verifyRmInSubject(currentRm, currentId)){
+            attributes.addFlashAttribute("message", "Você não faz parte desta turma.");
+        }
+        else {
             linkService.save(url, currentRm, currentId);
             attributes.addFlashAttribute("message", "Enviado! :)");
         }
@@ -94,10 +98,6 @@ public class HomeController {
 
     @GetMapping("delete/{id}")
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
-        if (currentRm == null || currentRm.isBlank() || currentRm.isEmpty()) {
-            attributes.addFlashAttribute("message", "Insira seu RM, primeiro.");
-            return "redirect:/";
-        }
         linkService.deleteById(id);
         return "redirect:/home/" + currentId;
     }
@@ -107,5 +107,4 @@ public class HomeController {
         session.removeAttribute("rm");
         return "redirect:/";
     }
-
 }
